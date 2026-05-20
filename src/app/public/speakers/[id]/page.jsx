@@ -80,9 +80,17 @@ export default function SpeakerPage() {
 
       <h2>External Links</h2>
 
-      <pre>
-        {JSON.stringify(speaker.external_links, null, 2)}
-      </pre>
+      {
+        Object.entries(speaker.external_links).map(
+          ([host, link]) => (
+            <div key={host}>
+              <a href={link} target="_blank">
+                {host}
+              </a>
+            </div>
+          )
+        )
+      }
 
       <h2>Sessions</h2>
 

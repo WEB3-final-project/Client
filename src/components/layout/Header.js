@@ -1,6 +1,6 @@
+'use client';
 import Link from "next/link";
 import LogoLight from "../shared/LogoLight";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { logout,getToken } from "@/lib/api/auth";
 import { useEffect, useState } from "react";
@@ -48,7 +48,11 @@ function Header() {
                 </ul>
             </nav>
             <div className="header_actions hidden lg:flex flex flex-row justify-center items-center gap-6">
-                <Link href="/auth/login" className="text-[var(--black)] font-medium">Se connecter</Link>
+                {token ? (
+                    <button onClick={handleLogout} className="text-white font-semibold bg-[var(--black)] px-6 py-2 rounded-4xl">Se déconnecter</button> 
+                ) : (
+                    <Link href="/auth/login" className="text-[var(--black)] font-medium">Se connecter</Link>
+                )}
                 <button className="text-white font-semibold bg-[var(--black)] px-6 py-2 rounded-4xl">Commencer</button>
             </div>
             <button className="lg:hidden text-2xl text-[var(--black)]">

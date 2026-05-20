@@ -72,8 +72,6 @@ export const register = async (formData)=> {
       info = { photoUrl, bio, fullName, externalLinks, email, password, role };
     } else if (role === "participant") {
       info = { fullName, email, password, role };
-    } else if (role === "admin") {
-      info = { email, password, fullName, role };
     }
     response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/signup`, {
       method: "POST",
