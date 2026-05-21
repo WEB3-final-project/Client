@@ -1,4 +1,4 @@
-import LogoDark from "../shared/LogoDark";
+import LogoDark from "../../shared/LogoDark";
 
 function Footer() {
     return (
