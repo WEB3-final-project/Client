@@ -1,11 +1,33 @@
+'use client';
 import Link from "next/link";
 import LogoLight from "@/components/shared/LogoLight";
-
+import { useState } from "react";
+import { login } from "@/lib/api/auth";
 export default function LoginPage() {
-    return (
-        <div className="min-h-screen flex items-center justify-center px-4">
-            <div className="w-full max-w-sm flex flex-col items-center gap-8">
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
+    const handleLogin = async (e) => {
+    e.preventDefault();
+    setError(null);
 
+    try {
+        const result = await login(new FormData(e.currentTarget));
+        if (result.success) {
+          window.location.href = "/";
+        } else {
+          setError(result.message || "something went wrong");
+        }
+
+    } catch (err) {
+      setError("Can not connect to the server");
+    }
+  };
+    return (
+        <form onSubmit={handleLogin} className="min-h-screen flex items-center justify-center px-4">
+            <div className="w-full max-w-sm flex flex-col items-center gap-8">
+                {error && <p style={{ color: "red" }}>{error}</p>}
                 <div className="flex items-center gap-3">
                     <LogoLight />
                     <span className="text-2xl font-bold">
@@ -30,7 +52,7 @@ export default function LoginPage() {
                             Email
                         </label>
                         <input
-                            type="email"
+                            name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required
                             placeholder="admin@eventsync.com"
                             className="border border-[var(--color-gray)] rounded-xl px-4 py-3 text-sm outline-none focus:border-[var(--color-accent)] transition-colors"
                         />
@@ -41,16 +63,21 @@ export default function LoginPage() {
                             Mot de passe
                         </label>
                         <input
-                            type="password"
+                            name="password" type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required 
                             placeholder="••••••••"
                             className="border border-[var(--color-gray)] rounded-xl px-4 py-3 text-sm outline-none focus:border-[var(--color-accent)] transition-colors"
                         />
+                        <button type="button" onClick={() => setShowPassword(!showPassword)}>
+                        {showPassword ? "Hide" : "Show"} Password
+                        </button>
                     </div>
 
-                    <button className="w-full bg-[var(--black)] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity cursor-pointer">
+                    <button type="submit" className="w-full bg-[var(--black)] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity cursor-pointer">
                         Se connecter
                     </button>
-
+                    <button type="button" onClick={() => window.location.href = "/auth/register"} className="w-full bg-[var(--black)] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity cursor-pointer">
+                        S'inscrire
+                    </button>
                 </div>
 
                 <Link href="/" className="flex items-center gap-2 text-sm text-[var(--color-gray)] hover:text-[var(--black)] transition-colors group">
@@ -59,6 +86,6 @@ export default function LoginPage() {
                 </Link>
 
             </div>
-        </div>
+        </form>
     );
 }
