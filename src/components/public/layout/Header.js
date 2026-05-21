@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import LogoLight from "../shared/LogoLight";
+import LogoLight from "../../shared/LogoLight";
 import { useRouter } from "next/navigation";
 import { logout,getToken } from "@/lib/api/auth";
 import { useEffect, useState } from "react";
