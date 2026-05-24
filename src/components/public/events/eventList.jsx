@@ -8,7 +8,8 @@ export default function EventsList() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const role = Cookies.get("role");
+  const [role, setRole] =
+    useState(null);
 
   async function loadEvents() {
     try {
@@ -23,6 +24,9 @@ export default function EventsList() {
   }
 
   useEffect(() => {
+    setRole(
+      Cookies.get("role")
+    );
     loadEvents();
   }, []);
 

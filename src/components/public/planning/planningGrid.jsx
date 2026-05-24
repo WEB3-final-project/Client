@@ -5,11 +5,22 @@ import Link from "next/link";
 import { isLive } from "@/utils/live";
 import React from "react";
 import FavoriteButton from "./favoriteButton";
-
+import { useState, useEffect } from "react";
+import DeleteRoomButton from "@/components/private/rooms/deleteButton";
+import Cookies from "js-cookie";
 export default function PlanningGrid({
-  sessions,
+  sessions: initialSessions,
 }) {
+    const [sessions, setSessions] =
+    useState(initialSessions);
+    const [role, setRole] =
+    useState(null);
 
+  useEffect(() => {
+    setRole(
+      Cookies.get("role")
+    );
+  }, []);
   const rooms = [
     ...new Map(
       sessions.map((s) => [
@@ -19,7 +30,21 @@ export default function PlanningGrid({
     ).values(),
   ];
 
+  function handleRoomDeleted(
+    deletedRoomId
+  ) {
 
+    setSessions((prev) =>
+      prev.filter(
+        (session) =>
+          session.room.id !==
+          deletedRoomId
+      )
+    );
+  }
+
+
+  
   const timeSlots = [
     ...new Set(
       sessions.map((session) => {
@@ -71,6 +96,31 @@ export default function PlanningGrid({
             "
           >
             {room.name}
+            {role === "admin" && (
+                <div className="flex gap-2">
+            <Link
+              href={`/private/admin/rooms/${room.id}/edit/`}
+              className="
+                bg-blue-500
+                text-white
+                px-3
+                py-1
+                rounded
+                text-sm
+              "
+            >
+              Modifier
+            </Link>
+
+            <DeleteRoomButton
+              roomId={room.id}
+              onDeleteSuccess={
+                handleRoomDeleted
+              }
+            />
+          </div>
+            )
+            }
           </div>
         ))}
 

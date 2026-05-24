@@ -3,16 +3,23 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import DeleteSessionButton from "@/components/private/sessions/deleteButton";
 import Cookies from "js-cookie";
+import { useState, useEffect } from "react";
 
 export default function SessionCard({ session, onSessionDeleted }) {
   const router = useRouter();
-  const role = Cookies.get("role");
+  const [role, setRole] =
+      useState(null);
 
   function handleUpdate(e) {
     e.preventDefault();
     e.stopPropagation();
     router.push(`/private/admin/sessions/${session.id}/edit`);
   }
+  useEffect(() => {
+      setRole(
+        Cookies.get("role")
+      );
+    }, []);
 
   return (
     <Link
