@@ -57,3 +57,8 @@ export async function updateEvent(
 
   return response.data;
 }
+
+export async function getAllEvents() {
+  const response = await api.get("/events");
+  return response.data;
+}

@@ -5,7 +5,7 @@ export default function SessionCard({
 }) {
   return (
     <Link
-      href={`/sessions/${session.id}`}
+      href={`/public/sessions/${session.id}`}
       className="
         border
         rounded-xl

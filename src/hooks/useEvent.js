@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 
 import {
-  getSessions,
-} from "@/lib/api/sessions";
+  getAllEvents,
+} from "@/lib/api/events";
 
-export function useSessions() {
-  const [sessions, setSessions] =
+export function useEvents() {
+  const [events, setEvents] =
     useState([]);
 
   const [loading, setLoading] =
@@ -17,9 +17,9 @@ export function useSessions() {
     async function load() {
       try {
         const data =
-          await getSessions();
+          await getAllEvents();
 
-        setSessions(data);
+        setEvents(data);
       } finally {
         setLoading(false);
       }
@@ -29,7 +29,7 @@ export function useSessions() {
   }, []);
 
   return {
-    sessions,
+    events,
     loading,
   };
 }
