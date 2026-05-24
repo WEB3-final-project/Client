@@ -1,3 +1,4 @@
+import api from "./api";
 export const getSpeakerProfile = async (id)=> {
   let response; 
   try {
@@ -17,3 +18,8 @@ export const getSpeakerProfile = async (id)=> {
     return { status: response ? response.status : 500, success: false, message: "Can not connect to the server" };
   }
 };
+
+export async function getAllSpeakers() {
+  const response = await api.get("/speakers");
+  return response.data;
+}
