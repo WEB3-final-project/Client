@@ -66,7 +66,7 @@ export default function EditSessionPage() {
     );
 
     router.push(
-      "/private/admin/sessions"
+      "/public/sessions"
     );
   }
 

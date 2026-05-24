@@ -6,7 +6,7 @@ import {
   createQuestion,
   getQuestions,
   upvoteQuestion
-} from "@/lib/api/question.api";
+} from "@/lib/api/question";
 export default function QuestionSection({
   sessionId,
 }) {

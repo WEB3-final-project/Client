@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import {
   getSessions,
-} from "@/lib/api/sessions";
+} from "@/lib/api/session";
 
 export function useSessions() {
   const [sessions, setSessions] =

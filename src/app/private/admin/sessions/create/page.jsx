@@ -39,7 +39,7 @@ export default function CreateSessionPage() {
       ] = await Promise.all([
         api.get("/rooms"),
         api.get("/events"),
-        api.get("/users/speakers"),
+        api.get("/speakers"),
       ]);
 
       setRooms(roomsRes.data);
@@ -61,7 +61,7 @@ export default function CreateSessionPage() {
     );
 
     router.push(
-      "/private/admin/sessions"
+      "/public/sessions"
     );
   }
 

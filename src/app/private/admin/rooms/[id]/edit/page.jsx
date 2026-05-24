@@ -43,7 +43,7 @@ export default function EditRoomPage() {
         }
       );
 
-      router.push("/private/admin/rooms");
+      router.push("/public/rooms");
     } finally {
       setLoading(false);
     }

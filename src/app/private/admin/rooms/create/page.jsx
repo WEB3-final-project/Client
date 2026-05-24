@@ -24,7 +24,7 @@ export default function CreateRoomPage() {
         name,
       });
 
-      router.push("/private/admin/rooms");
+      router.push("/public/rooms");
     } catch (error) {
       console.error(error);
     } finally {

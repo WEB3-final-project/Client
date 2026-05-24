@@ -2,27 +2,34 @@
 import React, { useEffect, useState } from 'react';
 import DeleteEventButton from '@/components/private/events/deleteButton';
 import { getAllEvents } from '@/lib/api/events'; 
+import Cookies from 'js-cookie';
 
 export default function EventsList() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  useEffect(() => {
-    async function fetchEvents() {
-      try {
-        const data = await getAllEvents();
-        setEvents(data);
-      } catch (err) {
-        console.error("Erreur lors de la récupération du front:", err);
-        setError("Impossible de charger les événements.");
-      } finally {
-        setLoading(false);
-      }
-    }
+  const role = Cookies.get("role");
 
-    fetchEvents();
+  async function loadEvents() {
+    try {
+      const data = await getAllEvents();
+      setEvents(data);
+    } catch (err) {
+      console.error("Erreur lors de la récupération du front:", err);
+      setError("Impossible de charger les événements.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    loadEvents();
   }, []);
+
+  // 2. Cette fonction retire l'événement supprimé de l'état local instantanément
+  const handleEventDeleted = (deletedId) => {
+    setEvents((prevEvents) => prevEvents.filter(event => event.id !== deletedId));
+  };
 
   const formatDate = (dateString) => {
     if (!dateString) return '';
@@ -77,18 +84,18 @@ export default function EventsList() {
                   {event.description || "Aucune description fournie."}
                 </p>
               </div>
-                {
-                    role === "admin" && (
-                        <div>
-                            <button className="bg-blue-500 text-white px-3 py-2 rounded mr-2"
-                                onClick={() => window.location.href = `/private/admin/events/${event.id}/edit`}
-                            >
-                                edit
-                            </button>
-                            <DeleteEventButton eventId={event.id} />
-                        </div>
-                    )
-                }
+              
+              {role === "admin" && (
+                <div className="px-6 pb-4 flex gap-2">
+                  <button 
+                    className="bg-blue-500 text-white px-3 py-2 rounded text-sm hover:bg-blue-600 transition-colors"
+                    onClick={() => window.location.href = `/private/admin/events/${event.id}/edit`}
+                  >
+                    Modifier
+                  </button>
+                  <DeleteEventButton eventId={event.id} onDeleteSuccess={handleEventDeleted} />
+                </div>
+              )}
 
               <div className="bg-gray-50 px-6 py-4 border-t border-gray-100 text-xs text-gray-500 flex justify-between items-center">
                 <div>

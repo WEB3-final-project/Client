@@ -58,7 +58,7 @@ export default function EditEventPage() {
       );
 
       router.push(
-        "/private/admin/events"
+        "/public/events"
       );
     } finally {
       setLoading(false);

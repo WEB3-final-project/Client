@@ -1,8 +1,8 @@
 "use client";
 
-import { useSessions } from "@/hooks/useSessions";
+import { useSessions } from "@/hooks/useSession";
 
-import SessionCard from "./SessionCard";
+import SessionCard from "./sessionCard";
 
 export default function SessionList() {
   const { sessions, loading } =

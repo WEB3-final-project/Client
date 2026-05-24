@@ -32,7 +32,7 @@ export default function CreateEventPage() {
       await createEvent(form);
 
       router.push(
-        "/private/admin/events"
+        "/public/events"
       );
     } catch (error) {
       console.error(error);

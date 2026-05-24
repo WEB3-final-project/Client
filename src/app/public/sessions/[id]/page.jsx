@@ -1,15 +1,20 @@
 import {
   getSession,
-} from "@/services/session.service";
+} from "@/lib/api/session";
 
-import QuestionSection from "@/components/questions/QuestionSection";
+import QuestionSection from "@/components/public/questions/questionSection";
 
 export default async function SessionPage({
   params,
 }) {
-  const session = await getSession(
-    params.id
-  );
+  const resolvedParams = await params; 
+  const sessionId = resolvedParams.id;
+
+  const session = await getSession(sessionId);
+
+  if (!session) {
+    return <p className="p-6">Session introuvable.</p>;
+  }
 
   return (
     <main className="p-6 space-y-6">
