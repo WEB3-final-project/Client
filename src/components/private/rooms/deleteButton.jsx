@@ -1,40 +1,29 @@
 "use client";
-
 import api from "@/lib/api/api";
 
-import { useRouter } from "next/navigation";
-
-export default function DeleteRoomButton({
-  roomId,
-}) {
-  const router = useRouter();
-
+export default function DeleteRoomButton({ roomId, onDeleteSuccess }) {
   async function handleDelete() {
-    const confirmed = confirm(
-      "Delete this room?"
-    );
-
+    const confirmed = confirm("Voulez-vous vraiment supprimer cette salle ?");
     if (!confirmed) return;
 
-    await api.delete(
-      `/rooms/${roomId}`
-    );
+    try {
+      await api.delete(`/rooms/${roomId}`);
 
-    router.refresh();
+      if (onDeleteSuccess) {
+        onDeleteSuccess(roomId);
+      }
+    } catch (error) {
+      console.error("Erreur lors de la suppression:", error);
+      alert("Impossible de supprimer la salle.");
+    }
   }
 
   return (
     <button
       onClick={handleDelete}
-      className="
-        bg-red-500
-        text-white
-        px-3
-        py-2
-        rounded
-      "
+      className="bg-red-500 text-white px-3 py-2 rounded text-sm hover:bg-red-600 transition-colors"
     >
-      Delete
+      Supprimer
     </button>
   );
 }

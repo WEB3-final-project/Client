@@ -26,7 +26,6 @@ export default function EventsList() {
     loadEvents();
   }, []);
 
-  // 2. Cette fonction retire l'événement supprimé de l'état local instantanément
   const handleEventDeleted = (deletedId) => {
     setEvents((prevEvents) => prevEvents.filter(event => event.id !== deletedId));
   };
@@ -96,6 +95,11 @@ export default function EventsList() {
                   <DeleteEventButton eventId={event.id} onDeleteSuccess={handleEventDeleted} />
                 </div>
               )}
+              <div>
+                <button onClick={() => window.location.href = `/public/events/${event.id}`} className="w-full text-left px-6 py-3 bg-gray-100 hover:bg-gray-200 transition-colors text-sm font-medium text-gray-700">
+                    voir les details
+                </button>
+              </div>
 
               <div className="bg-gray-50 px-6 py-4 border-t border-gray-100 text-xs text-gray-500 flex justify-between items-center">
                 <div>

@@ -1,12 +1,12 @@
-import Header from "@/components/private/layout/Header";
+import Footer from "@/components/public/layout/Footer";
+import Header from "@/components/public/layout/Header";
 
-function adminLayout({ children }) {
-    return (
-        <>
-            <Header />
-            {children}
-        </>
-    );
+export default function PublicLayout({ children }) {
+  return (
+    <>
+      <Header />
+      {children}
+      <Footer />
+    </>
+  );
 }
-
-export default adminLayout;

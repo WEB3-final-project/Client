@@ -23,10 +23,10 @@ const features = [
     },
     {
         icon: "fa-regular fa-message",
-        title: "Questions et réponses en direct",
-        description: "Les participants posent des questions pendant les sessions en direct et votent pour les plus pertinentes.",
+        title: "Evenements disponibles",
+        description: "Liste des evenements publics avec détails",
         highlighted: false,
-        link: "/public/sessions",
+        link: "/public/events",
     },
     {
         icon: "fa-solid fa-user-group",

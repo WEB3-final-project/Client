@@ -1,40 +1,39 @@
 "use client";
-
 import api from "@/lib/api/api";
+import { useState } from "react";
 
-import { useRouter } from "next/navigation";
+export default function DeleteSessionButton({ sessionId, onDeleteSuccess }) {
+  const [isDeleting, setIsDeleting] = useState(false);
 
-export default function DeleteSessionButton({
-  sessionId,
-}) {
-  const router = useRouter();
+  async function handleDelete(e) {
+    e.preventDefault();
+    e.stopPropagation(); 
 
-  async function handleDelete() {
-    const confirmed = confirm(
-      "Delete this session?"
-    );
-
+    const confirmed = confirm("Voulez-vous vraiment supprimer cette session ?");
     if (!confirmed) return;
 
-    await api.delete(
-      `/sessions/${sessionId}`
-    );
+    try {
+      setIsDeleting(true);
+      await api.delete(`/sessions/${sessionId}`);
 
-    router.refresh();
+      if (onDeleteSuccess) {
+        onDeleteSuccess(sessionId);
+      }
+    } catch (error) {
+      console.error("Erreur lors de la suppression:", error);
+      alert("Impossible de supprimer la session.");
+    } finally {
+      setIsDeleting(false);
+    }
   }
 
   return (
     <button
       onClick={handleDelete}
-      className="
-        bg-red-500
-        text-white
-        px-3
-        py-2
-        rounded
-      "
+      disabled={isDeleting}
+      className="bg-red-500 text-white px-3 py-2 rounded text-sm hover:bg-red-600 transition-colors disabled:bg-red-300"
     >
-      Delete
+      {isDeleting ? "Suppression..." : "Supprimer"}
     </button>
   );
 }
