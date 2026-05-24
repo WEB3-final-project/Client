@@ -1,3 +1,4 @@
+import api from "./api";
 export const getEventById = async (id) => {
   let response;
 
@@ -32,3 +33,32 @@ export const getEventById = async (id) => {
     };
   }
 };
+
+
+export async function createEvent(
+  data
+) {
+  const response = await api.post(
+    "/events",
+    data
+  );
+
+  return response.data;
+}
+
+export async function updateEvent(
+  id,
+  data
+) {
+  const response = await api.put(
+    `/events/${id}`,
+    data
+  );
+
+  return response.data;
+}
+
+export async function getAllEvents() {
+  const response = await api.get("/events");
+  return response.data;
+}

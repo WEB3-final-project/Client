@@ -13,7 +13,7 @@ export const login = async (formData)=> {
     });
     const data = await response.json();
     if (response.ok) {
-      document.cookie = `role=${data.role}; path=/`;
+      Cookies.set("role", data.role, { expires: 1, secure: process.env.NODE_ENV === 'production' });
       Cookies.set("access_token", data.access_token, { expires: 1, secure: process.env.NODE_ENV === 'production' });
       return {status:response.status, success: true};
     }
@@ -37,7 +37,7 @@ export const logout = async() => {
     });
     const data = await response.json();
     if (response.ok) {      
-      document.cookie = "role=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      Cookies.remove("role");
       Cookies.remove("access_token");
       return {status:response.status, success: true};
     }

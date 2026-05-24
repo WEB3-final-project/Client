@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { getEventById } from "@/lib/api/events";
-
+import { getEventById } from "@/lib/api/event";
+import SessionCard from "@/components/public/sessions/sessionCard";
 export default function EventPage() {
     const params = useParams();
     const id = params.id;

@@ -34,11 +34,13 @@ export const customFetch = async (url, options = {}) => {
     if (refreshResponse.ok) {
       const data = await refreshResponse.json();
       memoryAccessToken = data.access_token;
+      Cookies.set("role", data.role, { expires: 1, secure: process.env.NODE_ENV === 'production' });
       Cookies.set("access_token", data.access_token, { expires: 1, secure: process.env.NODE_ENV === 'production' });
       
       options.headers["Authorization"] = `Bearer ${memoryAccessToken}`;
       response = await fetch(fullUrl, options);
     } else {
+      Cookies.remove("role");
       Cookies.remove("access_token");
       window.location.href = "/auth/login";
     }
