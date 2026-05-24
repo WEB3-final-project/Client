@@ -31,15 +31,18 @@ export default function EditEventPage() {
         );
 
       setForm({
-        title: event.title,
+        title: event.event.title,
         description:
-          event.description || "",
+          event.event.description || "",
         start_date:
-          event.start_date,
+          event.event.start_date
+            ?.slice(0, 10) || "",
+
         end_date:
-          event.end_date,
+          event.event.end_date
+            ?.slice(0, 10) || "",
         location:
-          event.location || "",
+          event.event.location || "",
       });
     }
 
