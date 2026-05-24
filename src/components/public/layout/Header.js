@@ -40,6 +40,9 @@ function Header() {
                     </h1>
                 </div>
             </Link>
+            <Link href="/profile/favorites">
+              Favorites
+            </Link>
             <nav className="header_nav hidden lg:block">
                 <ul className="flex flex-row justify-center items-center gap-10">
                     <li><a href="/#feature-section">Fonctionnalité</a></li>
