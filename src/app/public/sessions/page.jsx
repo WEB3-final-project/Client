@@ -1,6 +1,6 @@
 import SessionList from "@/components/public/sessions/sessionList";
 
-export default function HomePage() {
+export default function SessionPage() {
   return (
     <main className="p-6">
       <h1 className="text-4xl font-bold mb-6">
