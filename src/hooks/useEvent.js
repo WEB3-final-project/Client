@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import {
   getAllEvents,
-} from "@/lib/api/events";
+} from "@/lib/api/event";
 
 export function useEvents() {
   const [events, setEvents] =

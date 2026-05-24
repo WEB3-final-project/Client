@@ -10,7 +10,7 @@ import {
 import {
   getEventById,
   updateEvent,
-} from "@/lib/api/events";
+} from "@/lib/api/event";
 
 export default function EditEventPage() {
   const params = useParams();

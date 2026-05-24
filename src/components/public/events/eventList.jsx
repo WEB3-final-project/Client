@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import DeleteEventButton from '@/components/private/events/deleteButton';
-import { getAllEvents } from '@/lib/api/events'; 
+import { getAllEvents } from '@/lib/api/event'; 
 import Cookies from 'js-cookie';
 
 export default function EventsList() {

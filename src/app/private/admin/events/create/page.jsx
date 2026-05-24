@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 import {
   createEvent,
-} from "@/lib/api/events";
+} from "@/lib/api/event";
 
 export default function CreateEventPage() {
   const router = useRouter();
