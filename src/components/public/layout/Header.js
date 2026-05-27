@@ -40,7 +40,7 @@ function Header() {
                     </h1>
                 </div>
             </Link>
-            <Link href="/profile/favorites">
+            <Link href="/favorites">
               Favorites
             </Link>
             <nav className="header_nav hidden lg:block">

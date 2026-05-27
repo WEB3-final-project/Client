@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 export function middleware(request) {
 
@@ -7,7 +7,7 @@ export function middleware(request) {
   const role =
     request.cookies.get("role")?.value;
   if (
-    path.startsWith("/private") &&
+    path.startsWith("/admin") &&
     role !== "admin"
   ) {
     return NextResponse.redirect(
@@ -17,8 +17,3 @@ export function middleware(request) {
 
   return NextResponse.next();
 }
-
-export const config = {
-  matcher: ["/private/:path*", "/public/:path*"],
-  
-};
