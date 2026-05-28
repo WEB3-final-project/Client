@@ -1,50 +1,118 @@
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
+
 let memoryAccessToken = null;
 
-export const customFetch = async (url, options = {}) => {
-  const baseUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL || ""}`;
-  const fullUrl = `${baseUrl}${url}`;
+let isRefreshing = false;
+let refreshPromise = null;
 
-  if (!memoryAccessToken && typeof window !== "undefined") {
-    memoryAccessToken = Cookies.get("access_token");
+export function setAccessToken(token) {
+  memoryAccessToken = token;
+}
+
+export function getAccessToken() {
+  return memoryAccessToken;
+}
+
+export function clearAccessToken() {
+  memoryAccessToken = null;
+}
+
+function logout() {
+  clearAccessToken();
+
+  Cookies.remove("role");
+
+  if (typeof window !== "undefined") {
+    window.location.href = "/auth/login";
   }
+}
+
+async function refreshAccessToken(baseUrl) {
+  if (!isRefreshing) {
+    isRefreshing = true;
+
+    refreshPromise = fetch(
+      `${baseUrl}/api/auth/token/refresh`,
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    )
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error("Refresh token invalide");
+        }
+
+        const data = await response.json();
+
+        setAccessToken(data.access_token);
+
+        Cookies.set("role", data.role, {
+          expires: 1,
+          secure: process.env.NODE_ENV === "production",
+        });
+
+        return data.access_token;
+      })
+      .catch((error) => {
+        logout();
+        throw error;
+      })
+      .finally(() => {
+        isRefreshing = false;
+      });
+  }
+
+  return refreshPromise;
+}
+
+export async function customFetch(url, options = {}) {
+  const baseUrl =
+    process.env.NEXT_PUBLIC_API_BASE_URL || "";
+
+  const fullUrl = `${baseUrl}${url}`;
 
   options.headers = {
     "Content-Type": "application/json",
-    ...options.headers,
+    ...(options.headers || {}),
   };
 
-  if (memoryAccessToken) {
-    options.headers["Authorization"] = `Bearer ${memoryAccessToken}`;
+  const token = getAccessToken();
+
+  if (token) {
+    options.headers[
+      "Authorization"
+    ] = `Bearer ${token}`;
   }
 
-  options.credentials = "include"; 
+  options.credentials = "include";
 
   let response = await fetch(fullUrl, options);
 
-  if (response.status === 401 || response.status === 403) {
 
-    if (url.includes("/token/refresh")) return response;
+  if (response.status === 401) {
 
-    const refreshResponse = await fetch(`${baseUrl}/api/auth/token/refresh`, {
-      method: "POST",
-      credentials: "include",
-    });
+    if (url.includes("/token/refresh")) {
+      logout();
+      return response;
+    }
 
-    if (refreshResponse.ok) {
-      const data = await refreshResponse.json();
-      memoryAccessToken = data.access_token;
-      Cookies.set("role", data.role, { expires: 1, secure: process.env.NODE_ENV === 'production' });
-      Cookies.set("access_token", data.access_token, { expires: 1, secure: process.env.NODE_ENV === 'production' });
-      
-      options.headers["Authorization"] = `Bearer ${memoryAccessToken}`;
+    try {
+
+      const newAccessToken =
+        await refreshAccessToken(baseUrl);
+
+
+      options.headers[
+        "Authorization"
+      ] = `Bearer ${newAccessToken}`;
+
       response = await fetch(fullUrl, options);
-    } else {
-      Cookies.remove("role");
-      Cookies.remove("access_token");
-      window.location.href = "/auth/login";
+    } catch (error) {
+      logout();
+      throw error;
     }
   }
 
   return response;
-};
+}

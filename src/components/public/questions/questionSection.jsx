@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+import Cookies from "js-cookie";
+import DeleteQuestionButton from "@/components/private/questions/deleteButton";
 import {
     createQuestion,
     getQuestions,
@@ -10,6 +11,8 @@ import {
 export default function QuestionSection({
     sessionId,
 }) {
+    const [role, setRole] =
+      useState(null);
     const [upvotedQuestions, setUpvotedQuestions] =
         useState([]);
     const [questions, setQuestions] =
@@ -30,6 +33,9 @@ export default function QuestionSection({
     }
 
     useEffect(() => {
+        setRole(
+                Cookies.get("role")
+              );
         const saved =
             JSON.parse(
                 localStorage.getItem(
@@ -57,6 +63,14 @@ export default function QuestionSection({
 
         loadQuestions();
     }
+    function handleQuestionDeleted(questionId) {
+    setQuestions((prev) =>
+        prev.filter(
+            (question) =>
+                question.id !== questionId
+        )
+    );
+}
 
     async function handleUpvote(id) {
 
@@ -170,6 +184,12 @@ export default function QuestionSection({
                         >
                             👍 {question.upvotes}
                         </button>
+                        {
+                            role == "admin"&&
+                                <DeleteQuestionButton questionId={question.id} onDeleteSuccess={
+        handleQuestionDeleted
+    }/>
+                        }
                     </div>
                 ))}
             </div>

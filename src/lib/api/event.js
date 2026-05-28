@@ -1,4 +1,6 @@
 import api from "./api";
+import { customFetch } from "../api-client";
+import { getToken } from "./auth";
 export const getEventById = async (id) => {
   let response;
 
@@ -38,9 +40,12 @@ export const getEventById = async (id) => {
 export async function createEvent(
   data
 ) {
-  const response = await api.post(
+  const response = await customFetch(
     "/events",
-    data
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+    }
   );
 
   return response.data;
@@ -50,9 +55,12 @@ export async function updateEvent(
   id,
   data
 ) {
-  const response = await api.put(
+  const response = await customFetch(
     `/events/${id}`,
-    data
+    {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }
   );
 
   return response.data;
@@ -60,5 +68,16 @@ export async function updateEvent(
 
 export async function getAllEvents() {
   const response = await api.get("/events");
+  return response.data;
+}
+export async function deleteEvent(
+  id
+) {
+  const response = await customFetch(
+    `/events/${id}`,
+    {
+      method: "DELETE",
+    }
+  );
   return response.data;
 }

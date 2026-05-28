@@ -13,7 +13,7 @@ export default function SessionCard({ session, onSessionDeleted }) {
   function handleUpdate(e) {
     e.preventDefault();
     e.stopPropagation();
-    router.push(`/private/admin/sessions/${session.id}/edit`);
+    router.push(`admin/sessions/${session.id}/edit`);
   }
   useEffect(() => {
       setRole(
@@ -23,7 +23,7 @@ export default function SessionCard({ session, onSessionDeleted }) {
 
   return (
     <Link
-      href={`/public/sessions/${session.id}`}
+      href={`/sessions/${session.id}`}
       className="border rounded-xl p-4 flex flex-col gap-4 hover:shadow-md transition"
     >
       <div className="flex items-center justify-between">

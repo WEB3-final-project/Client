@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import api from "@/lib/api/api";
+import { createRoom } from "@/lib/api/room";
 
 export default function CreateRoomPage() {
   const router = useRouter();
@@ -20,11 +20,9 @@ export default function CreateRoomPage() {
     try {
       setLoading(true);
 
-      await api.post("/rooms", {
-        name,
-      });
+      await createRoom({name});
 
-      router.push("/public/rooms");
+      router.push("/rooms");
     } catch (error) {
       console.error(error);
     } finally {

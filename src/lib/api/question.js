@@ -1,5 +1,6 @@
 import api from "./api";
-
+import { customFetch } from "../api-client";
+import { getToken } from "./auth";
 export async function getQuestions(
   sessionId
 ) {
@@ -29,4 +30,22 @@ export async function upvoteQuestion(
   );
 
   return response.data;
+}
+export async function deleteQuestion(
+  id
+) {
+  const response = await customFetch(
+    `/questions/${id}`,
+    {
+      method: "DELETE",
+    }
+  );
+
+   if (!response.ok) {
+    throw new Error(
+      "Erreur suppression question"
+    );
+  }
+console.log(response.status);
+  return true;
 }
