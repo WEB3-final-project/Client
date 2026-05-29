@@ -7,7 +7,7 @@ export const getSpeakerProfile = async (id)=> {
     });
     const data = await response.json();
     if (response.ok) {
-      return {status:response.status, success: true, speaker: data.speaker};
+      return {status:response.status, success: true, speaker: data};
     }
     return{
       status: response.status,
