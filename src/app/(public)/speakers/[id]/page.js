@@ -2,6 +2,7 @@
 import { getSpeakerProfile } from "@/lib/api/profile";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 
 export default function SpeakerPage() {
 
@@ -58,76 +59,93 @@ export default function SpeakerPage() {
   }, [id]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="min-h-screen flex items-center justify-center text-gray-500 animate-pulse">Loading...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className="min-h-screen flex items-center justify-center text-red-500 font-semibold">{error}</div>;
   }
 
   return (
-    <div className="min-h-screen bg-white text-black px-6 py-10 max-w-4xl mx-auto">
-      <div className="flex flex-col items-center text-center gap-4">
-        <img
-          src={speaker.photo_url || "/default-avatar.png"}
-          alt={speaker.full_name || "Speaker"}
-          className="w-40 h-40 rounded-full object-cover border-4 border-[var(--color-accent-light)]"
-        />
-        <h1
-          className="text-3xl font-bold text-[var(--color-accent-dark)]"
-        >
-          {speaker.full_name || "Unknown Speaker"}
-        </h1>
-        <p className="text-gray-600 max-w-xl">
-          {speaker.bio || "No biography available."}
-        </p>
-      </div>
-      <div className="mt-10">
-        <h2
-          className="text-xl font-semibold mb-4 text-[var(--color-accent)]"
-        >
-          External Links
-        </h2>
+    <div className="min-h-screen relative bg-gray-50 text-black px-6 py-10">
 
-        <div className="flex flex-wrap gap-3">
-          {Object.entries(speaker.external_links || {}).length > 0 ? (
-            Object.entries(speaker.external_links || {}).map(([host, link]) => (
-              <a
-                key={host}
-                href={link}
-                target="_blank"
-                className="px-4 py-2 rounded-full text-sm border transition hover:scale-105 border-[var(--color-gray)] text-[var(--color-accent-dark)]"
-              >
-                {host}
-              </a>
-            ))
-          ) : (
-            <p className="text-gray-500">No external links</p>
-          )}
+      <Link
+        href="/speakers"
+        className="absolute top-1 right-8 md:right-auto md:left-2 px-4 py-2 flex justify-center gap-2 items-center text-lg font-sm"
+      >
+        <i className="fa-solid fa-arrow-left"></i>
+        <span>Back</span>
+      </Link>
+
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-10 items-start">
+        <div className="w-full md:w-1/3">
+          <div className="flex flex-col items-start gap-4">
+            <img
+              src={speaker.photo_url || "/default-avatar.png"}
+              alt={speaker.full_name || "Speaker"}
+              className="w-32 h-32 rounded-full object-cover border-2 border-gray-200"
+            />
+
+            <h1 className="text-2xl font-bold">
+              {speaker.full_name || "Unknown Speaker"}
+            </h1>
+
+            <p className="text-gray-600 text-sm leading-relaxed">
+              {speaker.bio || "No biography available."}
+            </p>
+          </div>
         </div>
-      </div>
-      <div className="mt-10">
-        <h2
-          className="text-xl font-semibold mb-4 text-[var(--color-accent)]"
-        >
-          Sessions
-        </h2>
-        {speaker.sessions?.length > 0 ? (
-          <ul className="space-y-4">
-            {speaker.sessions.map((session) => (
-              <li
-                key={session.id}
-                className="p-4 rounded-xl border shadow-sm hover:shadow-md transition border-[var(--color-gray)]"
-              >
-                <h3 className="font-semibold text-lg">
-                  {session.title}
-                </h3>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-gray-500">No sessions available</p>
-        )}
+
+        <div className="w-full md:w-2/3 space-y-10">
+          <div>
+            <h2 className="text-lg font-semibold mb-3 text-gray-800">
+              External Links
+            </h2>
+
+            <div className="flex flex-wrap gap-2">
+              {Object.entries(speaker.external_links || {}).length > 0 ? (
+                Object.entries(speaker.external_links || {}).map(([host, link]) => (
+                  <a
+                    key={host}
+                    href={link}
+                    target="_blank"
+                    className="px-3 py-1 text-sm rounded-md border border-gray-200 bg-white hover:bg-gray-100"
+                  >
+                    {host}
+                  </a>
+                ))
+              ) : (
+                <p className="text-gray-500 text-sm">No external links</p>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-lg font-semibold mb-3 text-gray-800">
+              Sessions
+            </h2>
+
+            {speaker.sessions?.length > 0 ? (
+              <div className="space-y-2">
+                {speaker.sessions.map((session) => (
+                  <Link
+                    key={session.id}
+                    href={`/sessions/${session.id}`}
+                    className="block p-3 border border-gray-200 rounded-md bg-white hover:bg-gray-50 transition"
+                  >
+                    <h3 className="font-medium">
+                      {session.title}
+                    </h3>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500 text-sm">No sessions available</p>
+            )}
+          </div>
+
+        </div>
+
       </div>
     </div>
   );
