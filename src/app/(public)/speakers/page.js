@@ -37,7 +37,7 @@ export default function SpeakersPage() {
                       className="w-32 h-32 rounded-full mx-auto mb-4 object-cover" 
                     />
                     <h2 className="text-xl font-semibold mb-4">{speaker.full_name}</h2>
-                                        <Link href={`/public/speakers/${speaker.id}`} className="text-blue-500 hover:underline block">
+                                        <Link href={`/speakers/${speaker.id}`} className="text-blue-500 hover:underline block">
                         Voir le profil
                     </Link>
                 </div>
