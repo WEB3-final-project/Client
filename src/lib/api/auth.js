@@ -9,8 +9,9 @@ export const login = async (formData)=> {
     const password = formData.get("password");
     response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`, {
       method: "POST",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password })
     });
     const data = await response.json();
     if (response.ok) {
@@ -36,7 +37,8 @@ export const logout = async() => {
       method: "DELETE"
     });
     const data = await response.json();
-    if (response.ok) {      
+    if (response.ok) {
+      localStorage.clear()     
       clearAccessToken();
       Cookies.remove("role");
       Cookies.remove("access_token");

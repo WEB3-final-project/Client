@@ -47,7 +47,7 @@ export async function createSession(data) {
 }
 export async function updateSession(id,data) {
   const response = await customFetch(
-  `/sessions/${params.id}`,
+  `/sessions/${id}`,
     {
       method: "PUT",
       body: JSON.stringify(data),

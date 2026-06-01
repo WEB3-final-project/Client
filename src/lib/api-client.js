@@ -54,7 +54,14 @@ async function refreshAccessToken(baseUrl) {
         const data = await response.json();
 
         setAccessToken(data.access_token);
-
+        Cookies.set(
+          "access_token",
+          data.access_token,
+          {
+            expires: 1,
+            secure: process.env.NODE_ENV === "production",
+          }
+        );
         Cookies.set("role", data.role, {
           expires: 1,
           secure: process.env.NODE_ENV === "production",

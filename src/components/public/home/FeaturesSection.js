@@ -41,7 +41,7 @@ const features = [
         title: "Personnels favoris",
         description: "Les participants construisent leur itinéraire personnel en ajoutant des sessions en favoris.",
         highlighted: false,
-        link: "/profile/favorites",
+        link: "/favorites",
     },
 ];
 

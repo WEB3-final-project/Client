@@ -61,7 +61,7 @@ export default function EditEventPage() {
       );
 
       router.push(
-        "/public/events"
+        "/events"
       );
     } finally {
       setLoading(false);

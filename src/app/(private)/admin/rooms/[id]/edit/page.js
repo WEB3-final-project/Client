@@ -38,7 +38,7 @@ export default function EditRoomPage() {
         name,
       });
 
-      router.push("/public/planning");
+      router.push("/planning");
     } finally {
       setLoading(false);
     }

@@ -141,7 +141,7 @@ export default function EditSessionPage() {
     await updateSession(params.id,form);
 
     router.push(
-      "/public/sessions"
+      "/sessions"
     );
   }
 
