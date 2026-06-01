@@ -32,7 +32,7 @@ async function refreshAccessToken(baseUrl) {
     isRefreshing = true;
 
     refreshPromise = fetch(
-      `${baseUrl}/api/auth/token/refresh`,
+      `${baseUrl}/api/auth/refresh`,
       {
         method: "POST",
         credentials: "include",
@@ -92,7 +92,7 @@ export async function customFetch(url, options = {}) {
 
   if (response.status === 401) {
 
-    if (url.includes("/token/refresh")) {
+    if (url.includes("/auth/refresh")) {
       logout();
       return response;
     }

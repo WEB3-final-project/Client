@@ -33,7 +33,11 @@ const features = [
         title: "Pages Intervenants",
         description: "Chaque intervenant dispose d'une page publique avec biographie, photo et séances associées.",
         highlighted: false,
+<<<<<<< HEAD:src/components/public/home/FeaturesSection.jsx
         link: "/speakers",
+=======
+        link: "speakers",
+>>>>>>> bc3bae51796de6bd223b3ebdf1becbebff88f1e5:src/components/public/home/FeaturesSection.js
     },
     {
         icon: "fa-regular fa-star",
