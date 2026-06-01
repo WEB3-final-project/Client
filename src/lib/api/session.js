@@ -40,8 +40,6 @@ export async function createSession(data) {
     {
       method: "POST",
       body: JSON.stringify(data),
-      headers: {
-      },
     }
   );
   return response.data;

@@ -10,7 +10,15 @@ export function setAccessToken(token) {
 }
 
 export function getAccessToken() {
-  return memoryAccessToken;
+  if (memoryAccessToken) return memoryAccessToken;
+
+  const token = Cookies.get("access_token");
+
+  if (token) {
+    memoryAccessToken = token;
+  }
+
+  return token;
 }
 
 export function clearAccessToken() {
@@ -32,7 +40,7 @@ async function refreshAccessToken(baseUrl) {
     isRefreshing = true;
 
     refreshPromise = fetch(
-      `${baseUrl}/api/auth/refresh`,
+      `${baseUrl}/auth/refresh`,
       {
         method: "POST",
         credentials: "include",
