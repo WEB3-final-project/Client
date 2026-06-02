@@ -99,7 +99,7 @@ export default function EventsList() {
                 </div>
               )}
               <div>
-                <button onClick={() => window.location.href = `/public/events/${event.id}`} className="w-full text-left px-6 py-3 bg-gray-100 hover:bg-gray-200 transition-colors text-sm font-medium text-gray-700">
+                <button onClick={() => window.location.href = `/events/${event.id}`} className="w-full text-left px-6 py-3 bg-gray-100 hover:bg-gray-200 transition-colors text-sm font-medium text-gray-700">
                     voir les details
                 </button>
               </div>

@@ -193,7 +193,7 @@ export default function PlanningGrid({
 
                           return (
                             <Link
-                              href={`/public/sessions/${session.id}`}
+                              href={`/sessions/${session.id}`}
                               key={
                                 session.id
                               }
