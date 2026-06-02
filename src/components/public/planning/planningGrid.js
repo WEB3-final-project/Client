@@ -1,310 +1,131 @@
 "use client";
 
 import Link from "next/link";
+import { useMemo, useState } from "react";
 
 import { isLive } from "@/utils/live";
-import React from "react";
 import FavoriteButton from "./favoriteButton";
-import { useState, useEffect } from "react";
-import DeleteRoomButton from "@/components/private/rooms/deleteButton";
-import Cookies from "js-cookie";
-export default function PlanningGrid({
-  sessions: initialSessions,
-}) {
-    const [sessions, setSessions] =
-    useState(initialSessions);
-    const [role, setRole] =
-    useState(null);
 
-  useEffect(() => {
-    setRole(
-      Cookies.get("role")
+export default function PlanningGrid({ sessions: initialSessions }) {
+  const [sessions] = useState(initialSessions);
+
+  const sortedSessions = useMemo(() => {
+    return [...sessions].sort(
+      (a, b) => new Date(a.start_time) - new Date(b.start_time)
     );
-  }, []);
-  const rooms = [
-    ...new Map(
-      sessions.map((s) => [
-        s.room.id,
-        s.room,
-      ])
-    ).values(),
-  ];
+  }, [sessions]);
 
-  function handleRoomDeleted(
-    deletedRoomId
-  ) {
+  const formatDate = (date) =>
+    new Date(date).toLocaleDateString([], {
+      weekday: "short",
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
 
-    setSessions((prev) =>
-      prev.filter(
-        (session) =>
-          session.room.id !==
-          deletedRoomId
-      )
-    );
-  }
-
-
-  
-  const timeSlots = [
-    ...new Set(
-      sessions.map((session) => {
-        return new Date(
-          session.start_time
-        ).toLocaleTimeString(
-          [],
-          {
-            hour: "2-digit",
-            minute: "2-digit",
-          }
-        );
-      })
-    ),
-  ].sort();
+  const formatTime = (date) =>
+    new Date(date).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
   return (
-    <div className="overflow-x-auto">
-      <div
-        className="
-          min-w-[1200px]
-          grid
-          border
-        "
-        style={{
-          gridTemplateColumns: `140px repeat(${rooms.length}, minmax(300px, 1fr))`,
-        }}
-      >
+    <div className="p-6 max-w-5xl mx-auto">
+      <h1 className="text-3xl font-bold mb-8 text-gray-900">
+        Event Planning
+      </h1>
 
-        <div
-          className="
-            border
-            p-4
-            font-bold
-            bg-gray-100
-          "
-        >
-          Time
-        </div>
+      <div className="space-y-5">
+        {sortedSessions.map((session) => {
+          const live = isLive(session.start_time, session.end_time);
 
-        {rooms.map((room) => (
-          <div
-            key={room.id}
-            className="
-              border
-              p-4
-              font-bold
-              bg-gray-100
-            "
-          >
-            {room.name}
-            {role === "admin" && (
-                <div className="flex gap-2">
-            <Link
-              href={`/private/admin/rooms/${room.id}/edit/`}
-              className="
-                bg-blue-500
-                text-white
-                px-3
-                py-1
-                rounded
-                text-sm
-              "
+          return (
+            <div
+              key={session.id}
+              className={`
+                group
+                rounded-2xl
+                border
+                p-6
+                shadow-sm
+                hover:shadow-lg
+                hover:-translate-y-0.5
+                transition-all
+                duration-200
+
+                ${live
+                  ? "border-red-400 bg-red-50/40 shadow-red-100"
+                  : "border-gray-100 bg-white"
+                }
+              `}
             >
-              Modifier
-            </Link>
+              <div className="flex justify-between items-start gap-4">
+                <Link href={`/sessions/${session.id}`}>
+                  <h2
+                    className={`
+                      text-xl font-semibold transition
+                      ${live
+                        ? "text-red-600"
+                        : "text-gray-900 group-hover:text-[var(--color-accent)]"
+                      }
+                    `}
+                  >
+                    {session.title}
+                  </h2>
+                </Link>
 
-            <DeleteRoomButton
-              roomId={room.id}
-              onDeleteSuccess={
-                handleRoomDeleted
-              }
-            />
-          </div>
-            )
-            }
-          </div>
-        ))}
-
-
-        {timeSlots.map(
-          (time) => (
-             <React.Fragment key={time}>
-
-              <div
-                className="
-                  border
-                  p-4
-                  font-semibold
-                  bg-gray-50
-                "
-              >
-                {time}
+                {live && (
+                  <span className="
+                    bg-red-600
+                    text-white
+                    text-xs font-bold
+                    px-3 py-1
+                    rounded-full
+                    shadow-md
+                    animate-pulse
+                    flex items-center gap-2
+                  ">
+                    <span className="w-2 h-2 bg-white rounded-full animate-ping" />
+                    LIVE
+                  </span>
+                )}
               </div>
 
+              <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-gray-600">
+                <span className="font-medium text-gray-800">
+                  {formatDate(session.start_time)}
+                </span>
 
-              {rooms.map(
-                (room) => {
-                  const roomSessions =
-                    sessions.filter(
-                      (
-                        session
-                      ) => {
-                        const start =
-                          new Date(
-                            session.start_time
-                          ).toLocaleTimeString(
-                            [],
-                            {
-                              hour: "2-digit",
-                              minute:
-                                "2-digit",
-                            }
-                          );
+                <span className="text-gray-400">•</span>
 
-                        return (
-                          start ===
-                            time &&
-                          session
-                            .room
-                            .id ===
-                            room.id
-                        );
-                      }
-                    );
+                <span>
+                  {formatTime(session.start_time)} - {formatTime(session.end_time)}
+                </span>
 
-                  return (
-                    <div
-                      key={`${room.id}-${time}`}
-                      className="
-                        border
-                        p-2
-                        min-h-[220px]
-                        space-y-3
-                      "
-                    >
-                      {roomSessions.map(
-                        (
-                          session
-                        ) => {
-                          const live =
-                            isLive(
-                              session.start_time,
-                              session.end_time
-                            );
+                <span className="text-gray-400">•</span>
 
-                          return (
-                            <Link
-                              href={`/sessions/${session.id}`}
-                              key={
-                                session.id
-                              }
-                              className="
-                                block
-                                border
-                                rounded-xl
-                                p-4
-                                bg-white
-                                hover:shadow-md
-                                transition
-                              "
-                            >
-                              <div className="flex justify-between items-start">
-                                <h3 className="font-bold text-lg">
-                                  {
-                                    session.title
-                                  }
-                                </h3>
+                <span className="
+                  px-2 py-0.5
+                  rounded-md
+                  bg-[var(--color-accent-light)]
+                  text-white
+                  text-xs
+                  font-medium
+                ">
+                  {session.room.name}
+                </span>
+              </div>
 
-                                {live && (
-                                  <span
-                                    className="
-                                      bg-red-500
-                                      text-white
-                                      text-xs
-                                      px-2
-                                      py-1
-                                      rounded
-                                    "
-                                  >
-                                    LIVE
-                                  </span>
-                                )}
-                              </div>
+              <div className="mt-3 text-sm text-gray-500">
+                {session.speakers?.map((s) => s.speaker.full_name).join(", ")}
+              </div>
 
-                              <div className="mt-3 text-sm text-gray-600">
-                                {new Date(
-                                  session.start_time
-                                ).toLocaleTimeString(
-                                  [],
-                                  {
-                                    hour:
-                                      "2-digit",
-                                    minute:
-                                      "2-digit",
-                                  }
-                                )}
-                                {" - "}
-                                {new Date(
-                                  session.end_time
-                                ).toLocaleTimeString(
-                                  [],
-                                  {
-                                    hour:
-                                      "2-digit",
-                                    minute:
-                                      "2-digit",
-                                  }
-                                )}
-                              </div>
-
-                              <div className="mt-2 text-sm">
-                                Room :
-                                {" "}
-                                {
-                                  session
-                                    .room
-                                    .name
-                                }
-                              </div>
-
-                              <div className="mt-3">
-                                <p className="text-sm font-semibold">
-                                  Speakers
-                                </p>
-
-                                <div className="text-sm text-gray-600">
-                                  {session.speakers
-                                    ?.map(
-                                      (
-                                        s
-                                      ) =>
-                                        s
-                                          .speaker
-                                          .full_name
-                                    )
-                                    .join(
-                                      ", "
-                                    )}
-                                </div>
-                              </div>
-
-                              <div className="mt-4">
-                                <FavoriteButton
-                                  session={
-                                    session
-                                  }
-                                />
-                              </div>
-                            </Link>
-                          );
-                        }
-                      )}
-                    </div>
-                  );
-                }
-              )}
-            </React.Fragment>
-          )
-        )}
+              <div className="mt-5 flex items-center gap-3">
+                <FavoriteButton session={session} />
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
