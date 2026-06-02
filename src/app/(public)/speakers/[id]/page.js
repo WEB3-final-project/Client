@@ -3,6 +3,7 @@ import { getSpeakerProfile } from "@/lib/api/profile";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import Loading from "@/components/shared/Loading";
 
 export default function SpeakerPage() {
 
@@ -59,7 +60,7 @@ export default function SpeakerPage() {
   }, [id]);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center text-gray-500 animate-pulse">Loading...</div>;
+    return <Loading />;
   }
 
   if (error) {
