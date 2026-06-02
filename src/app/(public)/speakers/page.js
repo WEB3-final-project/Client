@@ -1,4 +1,5 @@
 'use client';
+import Loading from "@/components/shared/Loading";
 import { getAllSpeakers } from "@/lib/api/profile";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -24,7 +25,7 @@ export default function SpeakersPage() {
   }, []);
 
   if (loading) {
-    return <div className="p-6 text-center">Chargement des intervenants...</div>;
+    return <Loading />;
   }
 
   if (error) {

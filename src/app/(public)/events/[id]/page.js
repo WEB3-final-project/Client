@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { getEventById } from "@/lib/api/event";
-import SessionCard from "@/components/public/sessions/sessionCard";
+import Loading from "@/components/shared/Loading";
 export default function EventPage() {
     const params = useParams();
     const id = params.id;
@@ -45,7 +45,7 @@ export default function EventPage() {
         fetchEvent();
     }, [id]);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Loading />;
     if (error) return <div>{error}</div>;
 
     const sortedSessions = [...(event.sessions || [])].sort(

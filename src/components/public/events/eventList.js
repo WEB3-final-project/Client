@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import DeleteEventButton from '@/components/private/events/deleteButton';
 import { getAllEvents } from '@/lib/api/event'; 
 import Cookies from 'js-cookie';
+import Loading from '@/components/shared/Loading';
 
 export default function EventsList() {
   const [events, setEvents] = useState([]);
@@ -45,9 +46,7 @@ export default function EventsList() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[300px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
+      <Loading />
     );
   }
 
