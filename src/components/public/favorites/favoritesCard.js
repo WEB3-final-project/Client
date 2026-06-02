@@ -30,7 +30,7 @@ export default function FavoriteSessionCard({
     >
       <div className="flex justify-between">
         <Link
-          href={`/public/sessions/${session.id}`}
+          href={`/sessions/${session.id}`}
         >
           <h2 className="text-2xl font-bold">
             {session.title}
