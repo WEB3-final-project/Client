@@ -1,20 +1,20 @@
 "use client";
-import { deleteEvent } from "@/lib/api/event";
+import { deleteQuestion } from "@/lib/api/question";
 
-export default function DeleteEventButton({ eventId, onDeleteSuccess }) {
+export default function DeleteQuestionButton({ questionId, onDeleteSuccess }) {
   async function handleDelete() {
     const confirmed = confirm("Voulez-vous vraiment supprimer cet événement ?");
     if (!confirmed) return;
 
     try {
-      await deleteEvent(eventId);
+      await deleteQuestion(questionId);
       
       if (onDeleteSuccess) {
-        onDeleteSuccess(eventId);
+        onDeleteSuccess(questionId);
       }
     } catch (error) {
       console.error("Erreur lors de la suppression:", error);
-      alert("Impossible de supprimer l'événement.");
+      alert("Impossible de supprimer la question.");
     }
   }
 

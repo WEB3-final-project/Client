@@ -5,7 +5,7 @@ const features = [
         title: "Gestion complète d'événements",
         description: "Créez et gérez vos événements avec tous les détails : sessions, salles, horaires et intervenants.",
         highlighted: false,
-        link: "/admin/",
+        link: "/admin",
     },
     {
         icon: "fa-solid fa-border-all",
@@ -33,14 +33,15 @@ const features = [
         title: "Pages Intervenants",
         description: "Chaque intervenant dispose d'une page publique avec biographie, photo et séances associées.",
         highlighted: false,
-        link: "speakers",
+        link: "/speakers",
+
     },
     {
         icon: "fa-regular fa-star",
         title: "Personnels favoris",
         description: "Les participants construisent leur itinéraire personnel en ajoutant des sessions en favoris.",
         highlighted: false,
-        link: "/profile/favorites",
+        link: "/favorites",
     },
 ];
 

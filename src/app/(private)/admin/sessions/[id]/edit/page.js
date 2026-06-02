@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import api from "@/lib/api/api";
 
-
+import { updateSession } from "@/lib/api/session";
 import {
   useParams,
   useRouter,
@@ -138,13 +138,10 @@ export default function EditSessionPage() {
 
     e.preventDefault();
 
-    await api.put(
-      `/sessions/${params.id}`,
-      form
-    );
+    await updateSession(params.id,form);
 
     router.push(
-      "/public/sessions"
+      "/sessions"
     );
   }
 

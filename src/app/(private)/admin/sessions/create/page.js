@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import api from "@/lib/api/api";
-
+import { createSession } from "@/lib/api/session";
 import { useRouter } from "next/navigation";
 
 export default function CreateSessionPage() {
@@ -55,13 +55,10 @@ export default function CreateSessionPage() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    await api.post(
-      "/sessions",
-      form
-    );
+    await createSession(form);
 
     router.push(
-      "/public/sessions"
+      "/sessions"
     );
   }
 

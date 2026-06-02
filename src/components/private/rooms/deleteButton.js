@@ -1,5 +1,5 @@
 "use client";
-import api from "@/lib/api/api";
+import { deleteRoom } from "@/lib/api/room";
 
 export default function DeleteRoomButton({ roomId, onDeleteSuccess }) {
   async function handleDelete() {
@@ -7,7 +7,7 @@ export default function DeleteRoomButton({ roomId, onDeleteSuccess }) {
     if (!confirmed) return;
 
     try {
-      await api.delete(`/rooms/${roomId}`);
+      await deleteRoom(roomId);
 
       if (onDeleteSuccess) {
         onDeleteSuccess(roomId);

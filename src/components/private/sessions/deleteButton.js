@@ -1,7 +1,6 @@
 "use client";
-import api from "@/lib/api/api";
 import { useState } from "react";
-
+import { deleteSession } from "@/lib/api/session";
 export default function DeleteSessionButton({ sessionId, onDeleteSuccess }) {
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -14,7 +13,7 @@ export default function DeleteSessionButton({ sessionId, onDeleteSuccess }) {
 
     try {
       setIsDeleting(true);
-      await api.delete(`/sessions/${sessionId}`);
+      await deleteSession(sessionId);
 
       if (onDeleteSuccess) {
         onDeleteSuccess(sessionId);

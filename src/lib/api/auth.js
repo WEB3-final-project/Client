@@ -1,6 +1,7 @@
 "use client";
 import { customFetch } from "@/lib/api-client";
 import Cookies from 'js-cookie';
+import { setAccessToken, getAccessToken,clearAccessToken } from "@/lib/api-client";
 export const login = async (formData)=> {
   let response; 
   try {
@@ -8,11 +9,13 @@ export const login = async (formData)=> {
     const password = formData.get("password");
     response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/login`, {
       method: "POST",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password })
     });
     const data = await response.json();
     if (response.ok) {
+      setAccessToken(data.access_token);
       Cookies.set("role", data.role, { expires: 1, secure: process.env.NODE_ENV === 'production' });
       Cookies.set("access_token", data.access_token, { expires: 1, secure: process.env.NODE_ENV === 'production' });
       return {status:response.status, success: true};
@@ -31,12 +34,12 @@ export const logout = async() => {
   let response; 
   try {
     response = await customFetch("/auth/logout", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      "Authorization": `Bearer ${getToken()}`,
+      method: "DELETE"
     });
     const data = await response.json();
-    if (response.ok) {      
+    if (response.ok) {
+      localStorage.clear()     
+      clearAccessToken();
       Cookies.remove("role");
       Cookies.remove("access_token");
       return {status:response.status, success: true};
@@ -53,7 +56,7 @@ export const logout = async() => {
 
 export const getToken = () => {
   if (typeof window === "undefined") return null;
-  return Cookies.get("access_token");
+  return getAccessToken();
 };
 
 
