@@ -76,9 +76,6 @@ export default function LoginPage() {
                     <button type="submit" className="w-full bg-[var(--black)] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity cursor-pointer">
                         Se connecter
                     </button>
-                    <button type="button" onClick={() => window.location.href = "/auth/register"} className="w-full bg-[var(--black)] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity cursor-pointer">
-                        S'inscrire
-                    </button>
                 </div>
 
                 <Link href="/" className="flex items-center gap-2 text-sm text-[var(--color-gray)] hover:text-[var(--black)] transition-colors group">
