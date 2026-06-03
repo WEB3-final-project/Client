@@ -8,6 +8,7 @@ export default function LoginPage() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
+    
     const handleLogin = async (e) => {
     e.preventDefault();
     setError(null);
@@ -15,7 +16,7 @@ export default function LoginPage() {
     try {
         const result = await login(new FormData(e.currentTarget));
         if (result.success) {
-          window.location.href = "/";
+          window.location.href = "/admin";
         } else {
           setError(result.message || "something went wrong");
         }
