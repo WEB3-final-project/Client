@@ -1,6 +1,5 @@
 import api from "./api";
 import { customFetch } from "../api-client";
-import { getToken } from "./auth";
 export async function getRooms() {
   const response = await api.get(
     `/rooms/`
