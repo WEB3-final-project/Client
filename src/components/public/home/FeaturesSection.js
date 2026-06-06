@@ -29,6 +29,13 @@ const features = [
         link: "/events",
     },
     {
+        icon: "fa-regular fa-message",
+        title: "Salles disponibles",
+        description: "Liste des salles publiques avec détails",
+        highlighted: false,
+        link: "/rooms",
+    },
+    {
         icon: "fa-solid fa-user-group",
         title: "Pages Intervenants",
         description: "Chaque intervenant dispose d'une page publique avec biographie, photo et séances associées.",

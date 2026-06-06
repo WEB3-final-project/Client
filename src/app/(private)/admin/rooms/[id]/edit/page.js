@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { getRoomById, updateRoom } from "@/lib/api/room";
+import { getRoom, updateRoom } from "@/lib/api/room";
 
 
 export default function EditRoomPage() {
@@ -20,9 +20,9 @@ export default function EditRoomPage() {
 
   useEffect(() => {
     async function loadRoom() {
-      const response = await getRoomById(params.id);
+      const response = await getRoom(params.id);
 
-      setName(response.data.name);
+      setName(response.name);
     }
 
     loadRoom();
@@ -38,7 +38,7 @@ export default function EditRoomPage() {
         name,
       });
 
-      router.push("/planning");
+      router.push("/rooms");
     } finally {
       setLoading(false);
     }

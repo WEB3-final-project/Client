@@ -91,7 +91,7 @@ export default function EventsList() {
                 <div className="px-6 pb-4 flex gap-2">
                   <button 
                     className="bg-blue-500 text-white px-3 py-2 rounded text-sm hover:bg-blue-600 transition-colors"
-                    onClick={() => window.location.href = `/private/admin/events/${event.id}/edit`}
+                    onClick={() => window.location.href = `/admin/events/${event.id}/edit`}
                   >
                     Modifier
                   </button>
