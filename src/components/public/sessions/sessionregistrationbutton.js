@@ -16,10 +16,17 @@ export function SessionRegistrationButton({ session, className = "" }) {
     if (isLive) {
         return (
             <span
-                className={`inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700 ${className}`}
+                className={`bg-red-600
+                    text-white
+                    text-xs font-bold
+                    px-3 py-1
+                    rounded-full
+                    shadow-md
+                    animate-pulse
+                    flex items-center gap-2`}
             >
-                <span className="h-2 w-2 animate-pulse rounded-full bg-red-500" />
-                Live
+                <span className="w-2 h-2 bg-white rounded-full animate-ping" />
+                LIVE
             </span>
         );
     }

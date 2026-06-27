@@ -12,7 +12,14 @@ const features = [
         title: "Planification multi-pistes",
         description: "Visualisez les sessions sous forme de grille temporelle avec affichage simultané par salles.",
         highlighted: false,
-        link: "/planning",
+        link: "/planning/global",
+    },
+    {
+        icon: "fa-solid fa-border-all",
+        title: "Vue planning par salle",
+        description: "Affichage des sessions filtrées par salle.",
+        highlighted: false,
+        link: "/planning/rooms",
     },
     {
         icon: "fa-solid fa-tower-broadcast",
