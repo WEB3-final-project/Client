@@ -5,8 +5,10 @@ import LogoLight from "../../shared/LogoLight";
 import { useRouter, usePathname } from "next/navigation";
 import { logout, getToken } from "@/lib/api/auth";
 import { useEffect, useState } from "react";
-
+import { NotificationBox } from "@/components/shared/Notificationbox";
+import { useSessionNotifications } from "@/hooks/Usesessionnotifications";
 function Header() {
+  useSessionNotifications();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -49,7 +51,8 @@ function Header() {
         <li><Link href="/#feature-section">Fonctionnalité</Link></li>
         <li><Link href="/#how-it-works-section">Comment ça marche</Link></li>
         <li><Link href="/#roles-section">Rôles</Link></li>
-        <li><Link href="/favorites">Favorites</Link></li>
+        <li><Link href="/favorites">Favoris</Link></li>
+        <li><NotificationBox /></li>
       </ul>
     </nav>
 

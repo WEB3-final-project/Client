@@ -16,7 +16,7 @@ const features = [
     },
     {
         icon: "fa-solid fa-tower-broadcast",
-        title: "Sessions en direct",
+        title: "Sessions disponibles",
         description: "Détection automatique des sessions en cours avec badge \"Live\" en temps réel.",
         highlighted: true,
         link: "/sessions",
