@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import DeleteSessionButton from "@/components/private/sessions/deleteButton";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
-
+import { SessionRegistrationButton } from "./sessionregistrationbutton";
 export default function SessionCard({ session, onSessionDeleted }) {
   const router = useRouter();
   const [role, setRole] =
@@ -28,15 +28,16 @@ export default function SessionCard({ session, onSessionDeleted }) {
     >
       <div className="flex items-center justify-between">
         <h2 className="font-bold text-lg">{session.title}</h2>
-        {session.is_live && (
-          <span className="bg-red-500 text-white px-2 py-1 rounded text-sm">LIVE</span>
-        )}
+        <div onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+          <SessionRegistrationButton session={session} />
+        </div>
       </div>
 
       <p>{session.description}</p>
 
       <div className="text-sm text-gray-500">
         Room : {session.room?.name || "Non assignée"}
+        
       </div>
 
       <div className="text-sm">
