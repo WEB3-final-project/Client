@@ -31,6 +31,9 @@ function Header() {
   const handleLogin = () => {
     router.push("/auth/login");
   };
+  const handleRegisterPageRedirection = () =>{
+    router.push("/auth/register")
+  }
 
   useEffect(() => {
     setToken(getToken());
@@ -73,7 +76,9 @@ function Header() {
         </button>
       )}
 
-      <button className="text-white font-semibold bg-[var(--black)] px-6 py-2 rounded-full">
+      <button 
+      onClick={()=>{handleRegisterPageRedirection()}}
+       className="text-white font-semibold bg-[var(--black)] px-6 py-2 rounded-full">
         Commencer
       </button>
     </div>
