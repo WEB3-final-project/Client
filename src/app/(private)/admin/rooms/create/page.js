@@ -22,7 +22,7 @@ export default function CreateRoomPage() {
 
       await createRoom({name});
 
-      router.push("/planning");
+      router.push("/rooms");
     } catch (error) {
       console.error(error);
     } finally {
